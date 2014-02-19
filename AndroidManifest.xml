@@ -25,19 +25,28 @@
     <!-- if you want to run the unit test for Dashboard you will need that you uncomment the following line --> 
     <!--   <uses-permission android:name="android.permission.WRITE_SETTINGS" />  -->  
     
+    <!-- python installation needs write permissions -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    
+    
+    
 
     <!-- <uses-permission android:name="com.android.vending.BILLING" /> -->
 
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
-
+  
+  <!-- Pyton additions beginning with android:debuggable-->
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:logo="@drawable/icon"
-        android:label="@string/app" >
+        android:label="@string/app"  
+      
+        android:debuggable="true"> 
 
+       
         <service
             android:name="se.leap.openvpn.OpenVpnService"
             android:permission="android.permission.BIND_VPN_SERVICE" >
@@ -45,8 +54,54 @@
                 <action android:name="android.net.VpnService" />
             </intent-filter>
         </service>
-	<service android:name="se.leap.bitmaskclient.ProviderAPI" android:enabled="true"/>
+        <service android:name="se.leap.bitmaskclient.ProviderAPI" android:enabled="true"/>
+	
+		<!-- PYTHON ADDITIONS -->	
+		<service 	android:name="ScriptService">
+	    	<intent-filter>
+				<action android:name="com.android.python27.ScriptService" />
+			</intent-filter>
+		</service>
 		
+		<service 	android:name="BackgroundScriptService">
+	    	<intent-filter>
+				<action android:name="com.android.python27.BackgroundScriptService" />
+			</intent-filter>
+		</service>
+		
+		<service android:name=".RpcServerService" />
+		
+		
+		 <activity 	android:name=".ScriptActivity"
+	      			android:configChanges="keyboardHidden|orientation"
+	      			android:theme="@android:style/Theme.Translucent.NoTitleBar">
+  			<intent-filter>
+	        	<action		android:name="android.intent.action.MAIN" />
+	        </intent-filter>
+	        <intent-filter>
+	        	<action		android:name="com.googlecode.android_scripting.action.ACTION_LAUNCH_FOR_RESULT" />
+	      </intent-filter>
+	 
+	     </activity>
+	     <activity 	android:configChanges="keyboardHidden|orientation"
+	      			android:name="com.googlecode.android_scripting.activity.FutureActivity" 
+	      			android:theme="@android:style/Theme.Translucent"/>
+	    
+	    <activity 	android:theme="@android:style/Theme.Translucent.NoTitleBar" 
+	      			android:configChanges="keyboardHidden|orientation" 
+	      			android:name="com.android.python27.DialogActivity"/>
+	
+		<activity
+	     		android:name=".RpcServerLauncher"
+	     		android:taskAffinity=""
+	     		android:theme="@android:style/Theme.Translucent.NoTitleBar">
+	     		<intent-filter>
+	       		<action android:name="android.intent.action.VIEW" />
+	     		</intent-filter>
+	   	</activity>
+	     
+	     
+            
         <activity
             android:name="se.leap.openvpn.LaunchVPN"
             android:label="@string/vpn_launch_title" >

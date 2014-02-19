@@ -141,4 +141,6 @@
     <string name="eip_cancel_connect_false">No</string>
     <string name="eip_state_not_connected">"Not running! Connection not secure!"</string>
     <string name="eip_state_connected">Connection Secure.</string>
+    <string name="loading">PythonAPK running</string>
+    
 </resources>
