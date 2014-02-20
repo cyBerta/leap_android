@@ -21,6 +21,10 @@ import org.json.JSONObject;
 
 import se.leap.bitmaskclient.R;
 import se.leap.bitmaskclient.ProviderAPIResultReceiver.Receiver;
+
+import com.android.python27.*;
+import com.android.python27.ScriptActivity.InstallAsyncTask;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
@@ -82,7 +86,12 @@ public class Dashboard extends Activity implements LogInDialog.LogInDialogInterf
 	//	mProgressBar = (ProgressBar) findViewById(R.id.progressbar_dashboard);
 	//    mProgressBar = (ProgressBar) findViewById(R.id.eipProgress);
 	//	eipStatus = (TextView) findViewById(R.id.eipStatus);
-
+		
+		
+		Intent intent =  new Intent(this, ScriptActivity.class);
+		intent.putExtra(ScriptActivity.INSTALLATION_NEEDED_s, true);
+		startActivityForResult(intent, ScriptActivity.INSTALLATION_NEEDED);
+		
 	    mProgressBar = (ProgressBar) findViewById(R.id.eipProgress);
 	    
 		ConfigHelper.setSharedPreferences(getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE));
@@ -120,8 +129,25 @@ public class Dashboard extends Activity implements LogInDialog.LogInDialogInterf
 			} else
 				configErrorDialog();
 		}
+		else if ( requestCode == ScriptActivity.INSTALLATION_NEEDED){
+			if (resultCode == RESULT_OK){
+				boolean installPython = data.getExtras().getBoolean(ScriptActivity.INSTALLATION_NEEDED_s);
+				if (installPython){
+					Intent intent = new Intent(this, ScriptActivity.class);
+					intent.putExtra(ScriptActivity.INSTALL_PYTHON_s, true);
+					startActivityForResult(intent, ScriptActivity.INSTALL_PYTHON);
+				}
+			}
+		} else if (requestCode == ScriptActivity.INSTALL_PYTHON){
+			if (resultCode == RESULT_OK){
+				Log.d(TAG_EIP_FRAGMENT, "Installation succeeded");
+			}
+		}
 	}
 
+	
+	
+	
 	/**
 	 * Dialog shown when encountering a configuration error.  Such errors require
 	 * reconfiguring LEAP or aborting the application.
@@ -202,8 +228,13 @@ public class Dashboard extends Activity implements LogInDialog.LogInDialogInterf
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		Intent intent;
+		Intent intent; 
 		switch (item.getItemId()){
+		case R.id.runPythonScipt:
+			intent = new Intent(this, ScriptActivity.class);
+			intent.putExtra(ScriptActivity.RUN_SERVICE_s, true);
+			startActivityForResult(intent, ScriptActivity.RUN_SERVICE);
+			return true;
 		case R.id.about_leap:
 			intent = new Intent(this, AboutActivity.class);
 			startActivity(intent);

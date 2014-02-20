@@ -44,9 +44,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+
 public class ScriptActivity extends Activity {
+	
 	ProgressDialog myProgressDialog; 
-	  
+	private static final String ScriptActivity_Tag = "COM.ANDROID.PYTHON27.SCRIPTACTIVITY";  
+	
+	public static final int INSTALL_PYTHON = 1;
+	public static final int RUN_SERVICE = 2;
+	public static final int INSTALLATION_NEEDED = 3;
+	
+	public static final String INSTALL_PYTHON_s= "INSTALL_P";
+	public static final String RUN_SERVICE_s = "RUN_S";
+	public static final String INSTALLATION_NEEDED_s = "INSTALLATION_N";
+	
+	private static String intentExtra = ""; 
+	private static boolean returnValue = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,20 +74,85 @@ public class ScriptActivity extends Activity {
 		//}
 	  
 		// install needed ?
-    	boolean installNeeded = isInstallNeeded();
+//    	boolean installNeeded = isInstallNeeded();
+//		
+//    	if(installNeeded) {
+//    	  setContentView(R.layout.install);	
+//  		  new InstallAsyncTask().execute();
+//    	}
+//    	else {
+//    	    runScriptService();
+//    	    finish();
+//    	}
+	//	installPythonIfNeeded();
+		//onStart();
+		Intent intent = getIntent();
+		
+		Log.d(ScriptActivity_Tag, "intent: " + intent.getExtras());
+		
+		if (intent.hasExtra(INSTALLATION_NEEDED_s)){
+			Log.d(ScriptActivity_Tag, "INSTALLATION NEEDED");
+			intentExtra = INSTALLATION_NEEDED_s;
+			returnValue = isInstallNeeded();
+			finish();
+		}
+		else if (intent.hasExtra(INSTALL_PYTHON_s)){
+			Log.d(ScriptActivity_Tag, "INSTALLATION PYTHON");
+			intentExtra = INSTALL_PYTHON_s;
+			installPythonIfNeeded();
+			
+		}
+		else if (intent.hasExtra(RUN_SERVICE_s)){
+			Log.d(ScriptActivity_Tag, "RUN SERVICE");
+			intentExtra = RUN_SERVICE_s;
+			runScriptService();
+			finish();
+		}
+  }
+
+	@Override
+	public void finish(){
+		 Intent data = new Intent();
+		 data.putExtra(intentExtra, returnValue);
+		  // Activity finished ok, return the data
+		  setResult(RESULT_OK, data);
+		  super.finish();
+	}
+	
+	public void installPythonIfNeeded(){
+		boolean installNeeded = isInstallNeeded();
 		
     	if(installNeeded) {
     	  setContentView(R.layout.install);	
   		  new InstallAsyncTask().execute();
     	}
-    	else {
+    /*	else {
     	    runScriptService();
     	    finish();
-    	}
+    	}*/
 
-		//onStart();
-  }
+	}
 
+	
+/*	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (resultCode == RESULT_OK){
+	    	if (requestCode == INSTALL_PYTHON) {
+	    		setContentView(R.layout.install);
+	    		new InstallAsyncTask();
+	    	}
+	    	else if (requestCode == RUN_SERVICE){
+	    		runScriptService();
+	    		finish();
+	    	}
+	    	else if (requestCode == INSTALLATION_NEEDED){
+	    		data.putExtra("installation_needed", isInstallNeeded());
+	    		setResult(resultCode, data);
+	    	}
+	    }
+	      
+	    }
+	*/
 	private void sendmsg(String key, String value) {
 	      Message message = installerHandler.obtainMessage();
 	      Bundle bundle = new Bundle();
@@ -123,7 +202,7 @@ public class ScriptActivity extends Activity {
 	    	// show progress dialog
 	    	sendmsg("showProgressDialog", "");
 
-	    	sendmsg("setMessageProgressDialog", "Please wait...");
+	    	sendmsg("setMessageProgressDialog", "Installing Python modules for Bitmask. Please wait...");
 	    	createOurExternalStorageRootDir();
 	
 			// Copy all resources
@@ -143,12 +222,14 @@ public class ScriptActivity extends Activity {
 	    	
 	    	if(installStatus) {
 		    	sendmsg("installSucceed", "");
+		    	returnValue=true;
 	    	}
 	    	else {
 		    	sendmsg("installFailed", "");
+		    	returnValue=false;
 	    	}
 	    	
-		    runScriptService();
+		//    runScriptService();
 		    finish();
 		   }
 	   
@@ -168,11 +249,11 @@ public class ScriptActivity extends Activity {
 	}
 	
 	// quick and dirty: only test a file
-	private boolean isInstallNeeded() {
+	public boolean isInstallNeeded() {
 		File testedFile = new File(this.getFilesDir().getAbsolutePath()+ "/" + GlobalConstants.PYTHON_MAIN_SCRIPT_NAME);
-		if(!testedFile.exists()) {
-			return true;
-		}
+			if(!testedFile.exists()) {
+				return true;
+			}
 		return false;
 	}
 	
