@@ -57,27 +57,27 @@
         <service android:name="se.leap.bitmaskclient.ProviderAPI" android:enabled="true"/>
 	
 		<!-- PYTHON ADDITIONS -->	
-		<service 	android:name="ScriptService">
+		<service 	android:name="com.android.python27.ScriptService"> <!-- added: com.... -->
 	    	<intent-filter>
 				<action android:name="com.android.python27.ScriptService" />
 			</intent-filter>
 		</service>
 		
-		<service 	android:name="BackgroundScriptService">
+		<service 	android:name="com.android.python27.BackgroundScriptService">
 	    	<intent-filter>
 				<action android:name="com.android.python27.BackgroundScriptService" />
 			</intent-filter>
 		</service>
 		
-		<service android:name=".RpcServerService" />
+		<service android:name="com.android.python27.RpcServerService" />
 		
 		
-		 <activity 	android:name=".ScriptActivity"
+		 <activity 	android:name="com.android.python27.ScriptActivity"
 	      			android:configChanges="keyboardHidden|orientation"
 	      			android:theme="@android:style/Theme.Translucent.NoTitleBar">
-  			<intent-filter>
+  	<!-- 		<intent-filter>
 	        	<action		android:name="android.intent.action.MAIN" />
-	        </intent-filter>
+	        </intent-filter>  -->
 	        <intent-filter>
 	        	<action		android:name="com.googlecode.android_scripting.action.ACTION_LAUNCH_FOR_RESULT" />
 	      </intent-filter>
@@ -92,14 +92,13 @@
 	      			android:name="com.android.python27.DialogActivity"/>
 	
 		<activity
-	     		android:name=".RpcServerLauncher"
+	     		android:name="com.android.python27.RpcServerLauncher"
 	     		android:taskAffinity=""
 	     		android:theme="@android:style/Theme.Translucent.NoTitleBar">
 	     		<intent-filter>
 	       		<action android:name="android.intent.action.VIEW" />
 	     		</intent-filter>
 	   	</activity>
-	     
 	     
             
         <activity
