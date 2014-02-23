@@ -5,9 +5,9 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="libs/armeabi/libcom_googlecode_android_scripting_Exec.so"/>
 	<classpathentry kind="lib" path="libs/guava-r06.jar"/>
 	<classpathentry kind="lib" path="libs/locale_platform.jar"/>
 	<classpathentry kind="lib" path="libs/script.jar"/>
+	<classpathentry kind="lib" path="/home/richy/workspace/android-python27/android-python27/apk/libs/armeabi"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

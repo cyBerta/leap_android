@@ -8,7 +8,7 @@
         android:orderInCategory="110"
         android:title="@string/about"/>
     <item
-        android:id="@+id/runPythonScipt"
+        android:id="@+id/run_python"
         android:orderInCategory="111"
         android:title="@string/runPython"/>
     <item

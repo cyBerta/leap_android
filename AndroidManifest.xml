@@ -1,106 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright (C) 2011 The Android Open Source Project
 
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-
-          http://www.apache.org/licenses/LICENSE-2.0
-
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="se.leap.bitmaskclient"
-    android:versionCode="67"
-    android:versionName="0.4" >
+<manifest 	package="se.leap.bitmaskclient"
+  			android:versionCode="67"
+  			android:versionName="0.4"
+  			android:installLocation="internalOnly"
+  			xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- if you want to run the unit test for Dashboard you will need that you uncomment the following line --> 
-    <!--   <uses-permission android:name="android.permission.WRITE_SETTINGS" />  -->  
+  	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     
-    <!-- python installation needs write permissions -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    
-    
-    
-
-    <!-- <uses-permission android:name="com.android.vending.BILLING" /> -->
-
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="17" />
-  
-  <!-- Pyton additions beginning with android:debuggable-->
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/icon"
-        android:logo="@drawable/icon"
-        android:label="@string/app"  
-      
-        android:debuggable="true"> 
-
-       
-        <service
+  <uses-sdk     android:minSdkVersion="17"
+      			android:targetSdkVersion="17"
+      />
+        
+  <application 	android:debuggable="true"
+   				android:icon="@drawable/icon"
+    			android:label="@string/app_name"
+    			android:name="com.android.python27.ScriptApplication">
+    			
+     <service
             android:name="se.leap.openvpn.OpenVpnService"
             android:permission="android.permission.BIND_VPN_SERVICE" >
             <intent-filter>
                 <action android:name="android.net.VpnService" />
             </intent-filter>
         </service>
-        <service android:name="se.leap.bitmaskclient.ProviderAPI" android:enabled="true"/>
-	
-		<!-- PYTHON ADDITIONS -->	
-		<service 	android:name="com.android.python27.ScriptService"> <!-- added: com.... -->
-	    	<intent-filter>
-				<action android:name="com.android.python27.ScriptService" />
-			</intent-filter>
-		</service>
+	<service android:name="se.leap.bitmaskclient.ProviderAPI" android:enabled="true"/>
 		
-		<service 	android:name="com.android.python27.BackgroundScriptService">
-	    	<intent-filter>
-				<action android:name="com.android.python27.BackgroundScriptService" />
-			</intent-filter>
-		</service>
-		
-		<service android:name="com.android.python27.RpcServerService" />
-		
-		
-		 <activity 	android:name="com.android.python27.ScriptActivity"
-	      			android:configChanges="keyboardHidden|orientation"
-	      			android:theme="@android:style/Theme.Translucent.NoTitleBar">
-  	<!-- 		<intent-filter>
-	        	<action		android:name="android.intent.action.MAIN" />
-	        </intent-filter>  -->
-	        <intent-filter>
-	        	<action		android:name="com.googlecode.android_scripting.action.ACTION_LAUNCH_FOR_RESULT" />
-	      </intent-filter>
-	 
-	     </activity>
-	     <activity 	android:configChanges="keyboardHidden|orientation"
-	      			android:name="com.googlecode.android_scripting.activity.FutureActivity" 
-	      			android:theme="@android:style/Theme.Translucent"/>
-	    
-	    <activity 	android:theme="@android:style/Theme.Translucent.NoTitleBar" 
-	      			android:configChanges="keyboardHidden|orientation" 
-	      			android:name="com.android.python27.DialogActivity"/>
-	
-		<activity
-	     		android:name="com.android.python27.RpcServerLauncher"
-	     		android:taskAffinity=""
-	     		android:theme="@android:style/Theme.Translucent.NoTitleBar">
-	     		<intent-filter>
-	       		<action android:name="android.intent.action.VIEW" />
-	     		</intent-filter>
-	   	</activity>
-	     
-            
         <activity
             android:name="se.leap.openvpn.LaunchVPN"
             android:label="@string/vpn_launch_title" >
@@ -111,11 +37,11 @@
             android:label="@string/title_activity_dashboard"
             android:uiOptions="splitActionBarWhenNarrow" >
 
-            <intent-filter android:label="@string/app_name">
+     <!--        <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>  -->
         </activity>
         <activity
             android:name="se.leap.bitmaskclient.ConfigurationWizard"
@@ -134,6 +60,62 @@
                 <action android:name="se.leap.bitmaskclient.STOP_EIP"/>
             </intent-filter>
         </service>
-    </application>
+        
+        
+        
+        
+    <activity 	android:name="com.android.python27.ScriptActivity"
+      			android:configChanges="keyboardHidden|orientation"
+      			android:theme="@android:style/Theme.Translucent.NoTitleBar">
+      
+      <intent-filter android:label="@string/app_name">
+        <action		android:name="android.intent.action.MAIN" />
+        <category	android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+      
+       <intent-filter>
+        <action		android:name="com.googlecode.android_scripting.action.ACTION_LAUNCH_FOR_RESULT" />
+        <category	android:name="android.intent.category.DEFAULT" />
+      </intent-filter>
+      
+    </activity>
+    
+    <service 	android:name="com.android.python27.ScriptService">
+    	<intent-filter>
+			<action android:name="com.android.python27.ScriptService" />
+		</intent-filter>
+	</service>
+	
+    <service 	android:name="com.android.python27.BackgroundScriptService">
+    	<intent-filter>
+			<action android:name="com.android.python27.BackgroundScriptService" />
+		</intent-filter>
+	</service>
+	
+	<service android:name="com.android.python27.RpcServerService" />
+	        
+    <activity 	android:configChanges="keyboardHidden|orientation"
+      			android:name="com.googlecode.android_scripting.activity.FutureActivity" 
+      			android:theme="@android:style/Theme.Translucent"/>
+    
+    <activity 	android:theme="@android:style/Theme.Translucent.NoTitleBar" 
+      			android:configChanges="keyboardHidden|orientation" 
+      			android:name="com.android.python27.DialogActivity"/>
 
+	<activity
+     		android:name="com.android.python27.RpcServerLauncher"
+     		android:taskAffinity=""
+     		android:theme="@android:style/Theme.Translucent.NoTitleBar">
+     		<intent-filter>
+       		<action android:name="android.intent.action.VIEW" />
+       		<category android:name="android.intent.category.DEFAULT" />
+     		</intent-filter>
+   	</activity>
+    	
+</application>
+
+  <supports-screens android:xlargeScreens="true" />
+      
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>

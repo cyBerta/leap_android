@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import se.leap.bitmaskclient.R;
 import se.leap.bitmaskclient.ProviderAPIResultReceiver.Receiver;
 
-import com.android.python27.*;
+import com.android.python27.ScriptActivity;
 import com.android.python27.ScriptActivity.InstallAsyncTask;
 
 import android.app.Activity;
@@ -87,11 +87,6 @@ public class Dashboard extends Activity implements LogInDialog.LogInDialogInterf
 	//    mProgressBar = (ProgressBar) findViewById(R.id.eipProgress);
 	//	eipStatus = (TextView) findViewById(R.id.eipStatus);
 		
-		
-		Intent intent =  new Intent(this, ScriptActivity.class);
-		intent.putExtra(ScriptActivity.INSTALLATION_NEEDED_s, true);
-		startActivityForResult(intent, ScriptActivity.INSTALLATION_NEEDED);
-		
 	    mProgressBar = (ProgressBar) findViewById(R.id.eipProgress);
 	    
 		ConfigHelper.setSharedPreferences(getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE));
@@ -128,20 +123,6 @@ public class Dashboard extends Activity implements LogInDialog.LogInDialogInterf
 				finish();
 			} else
 				configErrorDialog();
-		}
-		else if ( requestCode == ScriptActivity.INSTALLATION_NEEDED){
-			if (resultCode == RESULT_OK){
-				boolean installPython = data.getExtras().getBoolean(ScriptActivity.INSTALLATION_NEEDED_s);
-				if (installPython){
-					Intent intent = new Intent(this, ScriptActivity.class);
-					intent.putExtra(ScriptActivity.INSTALL_PYTHON_s, true);
-					startActivityForResult(intent, ScriptActivity.INSTALL_PYTHON);
-				}
-			}
-		} else if (requestCode == ScriptActivity.INSTALL_PYTHON){
-			if (resultCode == RESULT_OK){
-				Log.d(TAG_EIP_FRAGMENT, "Installation succeeded");
-			}
 		}
 	}
 
@@ -230,10 +211,11 @@ public class Dashboard extends Activity implements LogInDialog.LogInDialogInterf
 	public boolean onOptionsItemSelected(MenuItem item){
 		Intent intent; 
 		switch (item.getItemId()){
-		case R.id.runPythonScipt:
+		case R.id.run_python:
 			intent = new Intent(this, ScriptActivity.class);
-			intent.putExtra(ScriptActivity.RUN_SERVICE_s, true);
-			startActivityForResult(intent, ScriptActivity.RUN_SERVICE);
+			intent.putExtra(ScriptActivity.run_service, true);
+			startActivity(intent);
+			buildDashboard();
 			return true;
 		case R.id.about_leap:
 			intent = new Intent(this, AboutActivity.class);

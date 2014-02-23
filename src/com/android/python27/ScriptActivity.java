@@ -29,6 +29,7 @@ import com.googlecode.android_scripting.FileUtils;
 import java.io.File;
 import java.io.InputStream;
 
+import se.leap.bitmaskclient.Dashboard;
 import se.leap.bitmaskclient.R;
 import android.util.Log;
 import android.app.Activity;
@@ -44,23 +45,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-
 public class ScriptActivity extends Activity {
-	
 	ProgressDialog myProgressDialog; 
-	private static final String ScriptActivity_Tag = "COM.ANDROID.PYTHON27.SCRIPTACTIVITY";  
-	
-	public static final int INSTALL_PYTHON = 1;
-	public static final int RUN_SERVICE = 2;
-	public static final int INSTALLATION_NEEDED = 3;
-	
-	public static final String INSTALL_PYTHON_s= "INSTALL_P";
-	public static final String RUN_SERVICE_s = "RUN_S";
-	public static final String INSTALLATION_NEEDED_s = "INSTALLATION_N";
-	
-	private static String intentExtra = ""; 
-	private static boolean returnValue = false;
-	
+	 
+	public static final String run_service = "RUN_SERVICE";
+	public static final String TAG_SCRIPT_ACTIVITY = "SCRIPT_ACTIVITY";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,85 +63,38 @@ public class ScriptActivity extends Activity {
 		//}
 	  
 		// install needed ?
-//    	boolean installNeeded = isInstallNeeded();
-//		
-//    	if(installNeeded) {
-//    	  setContentView(R.layout.install);	
-//  		  new InstallAsyncTask().execute();
-//    	}
-//    	else {
-//    	    runScriptService();
-//    	    finish();
-//    	}
-	//	installPythonIfNeeded();
-		//onStart();
-		Intent intent = getIntent();
-		
-		Log.d(ScriptActivity_Tag, "intent: " + intent.getExtras());
-		
-		if (intent.hasExtra(INSTALLATION_NEEDED_s)){
-			Log.d(ScriptActivity_Tag, "INSTALLATION NEEDED");
-			intentExtra = INSTALLATION_NEEDED_s;
-			returnValue = isInstallNeeded();
-			finish();
-		}
-		else if (intent.hasExtra(INSTALL_PYTHON_s)){
-			Log.d(ScriptActivity_Tag, "INSTALLATION PYTHON");
-			intentExtra = INSTALL_PYTHON_s;
-			installPythonIfNeeded();
-			
-		}
-		else if (intent.hasExtra(RUN_SERVICE_s)){
-			Log.d(ScriptActivity_Tag, "RUN SERVICE");
-			intentExtra = RUN_SERVICE_s;
+		Intent prevIntent = getIntent();
+		if (prevIntent.hasExtra(ScriptActivity.run_service)){
+			Log.d(TAG_SCRIPT_ACTIVITY, "intent has run_service.");
 			runScriptService();
 			finish();
 		}
+		else{
+		
+	    	boolean installNeeded = isInstallNeeded();
+			Log.d(TAG_SCRIPT_ACTIVITY, "intent has NOT run_service.");
+
+	    	if(installNeeded) {
+	    	  setContentView(R.layout.install);	
+				Log.d(TAG_SCRIPT_ACTIVITY, "INSTALLATION");
+
+	  		  new InstallAsyncTask().execute();
+	    	}
+	    	else {
+	    	  //  runScriptService();
+	    	 //   finish();
+				Log.d(TAG_SCRIPT_ACTIVITY, "Open Dashboard");
+
+	    		Intent intent = new Intent(this, Dashboard.class);
+	    		startActivity(intent);
+	    		finish();
+	    		
+	    	}
+		}
+
+		//onStart();
   }
 
-	@Override
-	public void finish(){
-		 Intent data = new Intent();
-		 data.putExtra(intentExtra, returnValue);
-		  // Activity finished ok, return the data
-		  setResult(RESULT_OK, data);
-		  super.finish();
-	}
-	
-	public void installPythonIfNeeded(){
-		boolean installNeeded = isInstallNeeded();
-		
-    	if(installNeeded) {
-    	  setContentView(R.layout.install);	
-  		  new InstallAsyncTask().execute();
-    	}
-    /*	else {
-    	    runScriptService();
-    	    finish();
-    	}*/
-
-	}
-
-	
-/*	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    if (resultCode == RESULT_OK){
-	    	if (requestCode == INSTALL_PYTHON) {
-	    		setContentView(R.layout.install);
-	    		new InstallAsyncTask();
-	    	}
-	    	else if (requestCode == RUN_SERVICE){
-	    		runScriptService();
-	    		finish();
-	    	}
-	    	else if (requestCode == INSTALLATION_NEEDED){
-	    		data.putExtra("installation_needed", isInstallNeeded());
-	    		setResult(resultCode, data);
-	    	}
-	    }
-	      
-	    }
-	*/
 	private void sendmsg(String key, String value) {
 	      Message message = installerHandler.obtainMessage();
 	      Bundle bundle = new Bundle();
@@ -202,7 +144,7 @@ public class ScriptActivity extends Activity {
 	    	// show progress dialog
 	    	sendmsg("showProgressDialog", "");
 
-	    	sendmsg("setMessageProgressDialog", "Installing Python modules for Bitmask. Please wait...");
+	    	sendmsg("setMessageProgressDialog", getString(R.string.install));
 	    	createOurExternalStorageRootDir();
 	
 			// Copy all resources
@@ -222,24 +164,28 @@ public class ScriptActivity extends Activity {
 	    	
 	    	if(installStatus) {
 		    	sendmsg("installSucceed", "");
-		    	returnValue=true;
 	    	}
 	    	else {
 		    	sendmsg("installFailed", "");
-		    	returnValue=false;
 	    	}
 	    	
-		//    runScriptService();
-		    finish();
+		  //  runScriptService();
+		  //  finish();
+	    	Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+	    	startActivity(intent);
+	    	finish();
+	    	
 		   }
 	   
 	  }
 	
   private void runScriptService() {
 	  if(GlobalConstants.IS_FOREGROUND_SERVICE) {
+		  Log.d(TAG_SCRIPT_ACTIVITY, "scriptService runs in foreground");
 		  startService(new Intent(this, ScriptService.class));
 	  }
 	  else {
+		  Log.d(TAG_SCRIPT_ACTIVITY, "scriptService runs in background");
 		  startService(new Intent(this, BackgroundScriptService.class)); 
 	  }
   }
@@ -249,11 +195,11 @@ public class ScriptActivity extends Activity {
 	}
 	
 	// quick and dirty: only test a file
-	public boolean isInstallNeeded() {
+	private boolean isInstallNeeded() {
 		File testedFile = new File(this.getFilesDir().getAbsolutePath()+ "/" + GlobalConstants.PYTHON_MAIN_SCRIPT_NAME);
-			if(!testedFile.exists()) {
-				return true;
-			}
+		if(!testedFile.exists()) {
+			return true;
+		}
 		return false;
 	}
 	
