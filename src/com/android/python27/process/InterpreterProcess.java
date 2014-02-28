@@ -25,7 +25,7 @@ package com.android.python27.process;
 import android.os.Environment;
 
 import com.android.python27.ScriptApplication;
-import com.android.python27.config.GlobalConstants;
+//import com.android.python27.config.GlobalConstants;
 import com.googlecode.android_scripting.Analytics;
 import com.googlecode.android_scripting.AndroidProxy;
 import com.googlecode.android_scripting.interpreter.Interpreter;
@@ -63,7 +63,7 @@ public class InterpreterProcess extends Process {
     mProxy = paramAndroidProxy;
     mInterpreter = myInterpreter.getInterpreter();
 
-  	niceName = "Python 2.7.2";
+  	niceName = "Python 2.6.2";
     pyname = "python";
     interactiveCommand = "";
     arguments = new ArrayList<String>();

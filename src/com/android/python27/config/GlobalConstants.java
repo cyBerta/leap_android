@@ -26,9 +26,9 @@ public class GlobalConstants {
 
 	public static final String PYTHON_MAIN_SCRIPT_NAME = "hello.py";
 	public static final String PYTHON_PROJECT_ZIP_NAME = "script.zip";
-	public static final String PYTHON_ZIP_NAME = "python_27.zip";
-	public static final String PYTHON_EXTRAS_ZIP_NAME = "python_extras_27.zip";
+	public static final String PYTHON_ZIP_NAME = "python_r16.zip";
+	public static final String PYTHON_EXTRAS_ZIP_NAME = "python_extras_r14.zip";
 
 	public static final boolean IS_FOREGROUND_SERVICE = false;
-	public static final String LOG_TAG = "PythonAPK";
+	public static final String LOG_TAG = "BitmaskPython";
 }
