@@ -24,8 +24,8 @@ package com.android.python27.config;
 
 public class GlobalConstants {
 
-	public static final String PYTHON_MAIN_SCRIPT_NAME = "hello.py";
-	public static final String PYTHON_PROJECT_ZIP_NAME = "script.zip";
+	public static String PYTHON_MAIN_SCRIPT_NAME = "hello.py";
+	public static String PYTHON_PROJECT_ZIP_NAME = "soledad_tests.zip";
 	public static final String PYTHON_ZIP_NAME = "python_r16.zip";
 	public static final String PYTHON_EXTRAS_ZIP_NAME = "python_extras_r14.zip";
 

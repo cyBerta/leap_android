@@ -142,7 +142,7 @@
     <string name="eip_state_not_connected">"Not running! Connection not secure!"</string>
     <string name="eip_state_connected">Connection Secure.</string>
     <string name="loading">Bitmask Python is running</string>
-    <string name="runPython">Run Python Sample Code</string>
+    <string name="runPython">Run Python unit tests</string>
     <string name="install">Please wait. Installing Python Interpreter and needed Modules for Bitmask on first use.</string>
     
     
