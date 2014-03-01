@@ -162,7 +162,7 @@ public class BackgroundScriptService extends Service {
 		// arguments
 		ArrayList<String> args = new ArrayList<String>();
 		args.add(scriptName);
-		args.add("--foreground");
+	//	args.add("--foreground"); // RICHY: NOT FOREGROUND?!
 
 		File pythonBinary = new File(this.getFilesDir().getAbsolutePath() + "/python/bin/python");
 
@@ -185,7 +185,7 @@ public class BackgroundScriptService extends Service {
 						mProxy.shutdown();
 						stopSelf(startId);
 						killProcess();
-						android.os.Process.killProcess(android.os.Process.myPid());
+					//	android.os.Process.killProcess(android.os.Process.myPid());  //RICHY: Don't kill main-process!
 						
 						// hard force restart
 //				        if (!ScriptService.this.killMe) {
