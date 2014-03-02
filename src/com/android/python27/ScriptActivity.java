@@ -191,7 +191,7 @@ public class ScriptActivity extends Activity {
   }
   
 	private void createOurExternalStorageRootDir() {
-		Utils.createDirectoryOnExternalStorage( this.getPackageName() );
+		Utils.createDirectoryOnExternalStorage( "Android/data/"+this.getPackageName() );
 	}
 	
 	// quick and dirty: only test a file
@@ -230,11 +230,11 @@ public class ScriptActivity extends Activity {
 						succeed &= Utils.unzip(content, this.getFilesDir().getAbsolutePath()+ "/", true);
 						FileUtils.chmod(new File(this.getFilesDir().getAbsolutePath()+ "/python/bin/python" ), 0755);
 					}
-					// python extras -> /sdcard/com.android.python27/extras/python
+					// python extras -> /sdcard/Android/data/com.android.python27/extras/python
 					else if (sFileName.endsWith(GlobalConstants.PYTHON_EXTRAS_ZIP_NAME)) {
-						Utils.createDirectoryOnExternalStorage( this.getPackageName() + "/" + "extras");
-						Utils.createDirectoryOnExternalStorage( this.getPackageName() + "/" + "extras" + "/" + "tmp");
-						succeed &= Utils.unzip(content, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + this.getPackageName() + "/extras/", true);
+						Utils.createDirectoryOnExternalStorage( "Android/data/"+ this.getPackageName() + "/" + "extras");
+						Utils.createDirectoryOnExternalStorage(  "Android/data/" + this.getPackageName() + "/" + "extras" + "/" + "tmp");
+						succeed &= Utils.unzip(content, Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/" + this.getPackageName() + "/extras/", true);
 					}
 					
 				} catch (Exception e) {

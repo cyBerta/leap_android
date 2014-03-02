@@ -118,7 +118,7 @@ public class InterpreterProcess extends Process {
 
   @Override
   public String getSdcardPackageDirectory() {
-    return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + ScriptApplication.getThePackageName();
+    return Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/" + ScriptApplication.getThePackageName();
   }
   
   public RpcReceiverManagerFactory getRpcReceiverManagerFactory()

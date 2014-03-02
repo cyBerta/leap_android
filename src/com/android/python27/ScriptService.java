@@ -182,8 +182,8 @@ public class ScriptService extends ForegroundService {
 		// env var
 		Map<String, String> environmentVariables = null;	
 		environmentVariables = new HashMap<String, String>();
-		environmentVariables.put("PYTHONPATH", Environment.getExternalStorageDirectory().getAbsolutePath()+ "/" + this.getPackageName() + "/extras/python" + ":" + this.getFilesDir().getAbsolutePath() + "/python/lib/python2.6/lib-dynload" + ":" + this.getFilesDir().getAbsolutePath() + "/python/lib/python2.6");		
-		environmentVariables.put("TEMP", Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + this.getPackageName() + "/extras/tmp");		
+		environmentVariables.put("PYTHONPATH", Environment.getExternalStorageDirectory().getAbsolutePath()+ "/Android/data/" + this.getPackageName() + "/extras/python" + ":" + this.getFilesDir().getAbsolutePath() + "/python/lib/python2.6/lib-dynload" + ":" + this.getFilesDir().getAbsolutePath() + "/python/lib/python2.6");		
+		environmentVariables.put("TEMP", Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/" + this.getPackageName() + "/extras/tmp");		
 		environmentVariables.put("PYTHONHOME", this.getFilesDir().getAbsolutePath() + "/python");		
 		environmentVariables.put("LD_LIBRARY_PATH", this.getFilesDir().getAbsolutePath() + "/python/lib" + ":" + this.getFilesDir().getAbsolutePath() + "/python/lib/python2.6/lib-dynload");		
 		
@@ -204,7 +204,7 @@ public class ScriptService extends ForegroundService {
 //				        }
 
 					}
-				}, script.getParent(),  Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + this.getPackageName(), args, environmentVariables, pythonBinary);		
+				}, script.getParent(),  Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/" + this.getPackageName(), args, environmentVariables, pythonBinary);		
 	}
 	
     // ------------------------------------------------------------------------------------------------------

@@ -22,6 +22,7 @@
 
 package com.android.python27.process;
 
+import android.os.Environment;
 import android.util.Log;
 
 import com.android.python27.config.GlobalConstants;
@@ -133,7 +134,7 @@ public class Process {
     int[] pid = new int[1];
     String[] argumentsArray = mArguments.toArray(new String[mArguments.size()]);
 
-    mLog = new File(String.format("%s/%s.log", getSdcardPackageDirectory() + "/", getName()));
+    mLog = new File(String.format("%s/%s.log", this.getSdcardPackageDirectory() , getName()));
     mFd = Exec.createSubprocess(binaryPath, argumentsArray, getEnvironmentArray(), getWorkingDirectory(), pid);
     mPid.set(pid[0]);
     mOut = new FileOutputStream(mFd);
@@ -188,7 +189,8 @@ public class Process {
   }
 
   public String getSdcardPackageDirectory() {
-	return null;
+	String returnVal  =  Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/" + GlobalConstants.PACKAGE_NAME; 
+	return  returnVal;
   }
   
   public String getUptime() {

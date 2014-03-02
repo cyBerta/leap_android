@@ -28,7 +28,7 @@ public class GlobalConstants {
 	public static String PYTHON_PROJECT_ZIP_NAME = "soledad_tests.zip";
 	public static final String PYTHON_ZIP_NAME = "python_r16.zip";
 	public static final String PYTHON_EXTRAS_ZIP_NAME = "python_extras_r14.zip";
-
+	public static final String PACKAGE_NAME = "se.leap.bitmaskclient";
 	public static final boolean IS_FOREGROUND_SERVICE = false;
 	public static final String LOG_TAG = "BitmaskPython";
 }
