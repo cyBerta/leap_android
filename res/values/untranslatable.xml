@@ -16,4 +16,7 @@
     <string name="lzo" translatable="false">LZO</string>
     <string name="openssl" translatable="false">OpenSSL</string>
     <string name="unknown_state" translatable="false">Unknown state</string>
+    <string name="android_python27" translatable="false">android-python27</string>
+    <string name="copyright_android_python27" translatable="false">Copyright © 2012\nAnthony Prieur and Daniel Oppenheim. All rights reserved.</string>
+    
 </resources>
