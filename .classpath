@@ -2,12 +2,16 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="bitmask_android/libs/armeabi"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="libs/guava-r06.jar"/>
 	<classpathentry kind="lib" path="libs/locale_platform.jar"/>
 	<classpathentry kind="lib" path="libs/script.jar"/>
-	<classpathentry kind="lib" path="/home/richy/workspace/android-python27/android-python27/apk/libs/armeabi"/>
+	<classpathentry kind="lib" path="libs"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
